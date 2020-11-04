@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Back</title>
-    <link>https://backkk/back.github.io/</link>
+    <link>https://backkk.github.io/back.github.io/</link>
     <description>Recent content on Back</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 01 Nov 2020 19:04:59 +0100</lastBuildDate>
     
-	<atom:link href="https://backkk/back.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://backkk.github.io/back.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>(EN) Write-up : C0lddBox</title>
-      <link>https://backkk/back.github.io/post/c0ldd_box/writeupp_c0ldd/</link>
+      <link>https://backkk.github.io/back.github.io/post/c0ldd_box/writeupp_c0ldd/</link>
       <pubDate>Sun, 01 Nov 2020 20:06:25 +0100</pubDate>
       
-      <guid>https://backkk/back.github.io/post/c0ldd_box/writeupp_c0ldd/</guid>
+      <guid>https://backkk.github.io/back.github.io/post/c0ldd_box/writeupp_c0ldd/</guid>
       <description>Author: C0ldd
 Description: Welcome to ColddBox Easy, it is a Wordpress machine with an easy level of difficulty, highly recommended for beginners in the field, good luck!
 Download:(https://mega.nz/file/VldHiIgA#4nRI2LPZs_x48_-ryCkPvL6Em2lQTSJEKvoReieDMec)
@@ -32,10 +32,10 @@ nmap -sP 10.0.2.15/24
     
     <item>
       <title>Whoami</title>
-      <link>https://backkk/back.github.io/whoami/</link>
+      <link>https://backkk.github.io/back.github.io/whoami/</link>
       <pubDate>Sun, 01 Nov 2020 19:04:59 +0100</pubDate>
       
-      <guid>https://backkk/back.github.io/whoami/</guid>
+      <guid>https://backkk.github.io/back.github.io/whoami/</guid>
       <description>Passionate about computers and cybersecurity, I will post here the ctf write-ups I&amp;rsquo;ve been able to do but also a few posts about computer security notions.
 Passionné d&amp;rsquo;informatique et de cybersécurité, je posterai ici les write-up de ctf que j&amp;rsquo;ai pu faire mais également quelques posts concernant des notions en sécurité informatique.
 Twitter Github</description>
