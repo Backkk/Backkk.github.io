@@ -245,7 +245,9 @@ $
 <p><code>$ python3 -c 'import pty; pty.spawn(&quot;/bin/bash&quot;)'</code></p>
 <p>Now we have a terminal, we can see that we are the user <strong>www-data</strong>, so we have rights to edit/delete some files of the web server. Let&rsquo;s check it out!</p>
 <p><code>cd /var/www/html</code></p>
-<p>c</p>
+<p><code>ls</code></p>
+<p><code>wp-admin.php</code></p>
+<p>let&rsquo;s look at the <strong>wp-admin.php</strong> file :</p>
 <pre><code>/** MySQL database username */
 define('DB_USER', 'c0ldd');
 
